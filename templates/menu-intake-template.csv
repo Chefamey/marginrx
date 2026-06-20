@@ -1,0 +1,4 @@
+name,category,channel,price,foodCost,packaging,prepMinutes,orders,commission,discount,marketing,payment,waste
+Butter Chicken Meal,North Indian,zomato,340,126,20,11,420,25,10,6,1.8,3
+Paneer Tikka Roll,QSR,swiggy,210,74,16,7,560,25,12,5,1.8,4
+Dal Khichdi Bowl,Comfort,direct,190,52,12,5,240,0,5,1,1.2,2

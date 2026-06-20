@@ -1,0 +1,4 @@
+invoiceDate,vendor,ingredient,unit,quantity,totalCost,gstPct,linkedMenuItems
+2026-06-01,ABC Poultry,chicken curry cut,kg,35,7350,5,Butter Chicken Meal
+2026-06-02,Fresh Basket,onion,kg,20,840,0,Butter Chicken Meal|Office Biryani Box
+2026-06-03,Dairy Direct,paneer,kg,18,6120,5,Paneer Tikka Roll

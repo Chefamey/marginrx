@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MarginRx - Restaurant Profit Doctor</title>
+    <link rel="stylesheet" href="styles.css?v=5">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="MarginRx controls">
+        <div class="brand-block">
+          <div class="brand-mark" aria-hidden="true">MR</div>
+          <div>
+            <p class="eyebrow">Chef-led profit audit</p>
+            <h1>MarginRx</h1>
+          </div>
+        </div>
+
+        <section class="panel compact-panel">
+          <div class="panel-title-row">
+            <h2>Audit Assumptions</h2>
+            <button class="icon-button" id="resetDefaultsButton" type="button" title="Reset assumptions">Reset</button>
+          </div>
+
+          <label class="field-label" for="targetMarginInput">
+            Target margin
+            <span id="targetMarginValue">18%</span>
+          </label>
+          <input id="targetMarginInput" type="range" min="5" max="35" step="1" value="18">
+
+          <label class="field-label" for="laborRateInput">
+            Kitchen labor per hour
+            <span id="laborRateValue">Rs. 140</span>
+          </label>
+          <input id="laborRateInput" type="range" min="60" max="400" step="10" value="140">
+
+          <label class="field-label" for="inputTaxInput">
+            Hidden input-tax burden
+            <span id="inputTaxValue">6%</span>
+          </label>
+          <input id="inputTaxInput" type="range" min="0" max="15" step="1" value="6">
+
+          <label class="toggle-row" for="priceIncludesGstInput">
+            <span>Menu price includes GST</span>
+            <input id="priceIncludesGstInput" type="checkbox" checked>
+          </label>
+
+          <label class="field-label" for="outputGstInput">
+            Output GST
+            <span id="outputGstValue">5%</span>
+          </label>
+          <input id="outputGstInput" type="range" min="0" max="18" step="1" value="5">
+
+          <label class="field-label" for="commissionGstInput">
+            GST on commission invoice
+            <span id="commissionGstValue">18%</span>
+          </label>
+          <input id="commissionGstInput" type="range" min="0" max="18" step="1" value="18">
+        </section>
+
+        <section class="panel compact-panel">
+          <div class="panel-title-row">
+            <h2>Channel Presets</h2>
+          </div>
+          <div class="preset-list" id="presetList"></div>
+        </section>
+
+        <section class="panel compact-panel">
+          <div class="panel-title-row">
+            <h2>CSV Intake</h2>
+          </div>
+          <textarea id="csvInput" rows="6" spellcheck="false" placeholder="name,category,channel,price,foodCost,packaging,prepMinutes,orders"></textarea>
+          <div class="button-row">
+            <button id="importCsvButton" type="button">Import</button>
+            <button id="exportCsvButton" type="button" class="secondary-button">Export</button>
+          </div>
+        </section>
+
+        <section class="panel compact-panel">
+          <div class="panel-title-row">
+            <h2>Pilot Pack</h2>
+          </div>
+          <div class="asset-list">
+            <a href="templates/menu-intake-template.csv" download>Menu intake CSV</a>
+            <a href="templates/vendor-bills-template.csv" download>Vendor bills CSV</a>
+            <a href="templates/platform-payout-template.csv" download>Platform payout CSV</a>
+            <a href="PILOT_PLAYBOOK.md">Pilot playbook</a>
+          </div>
+        </section>
+      </aside>
+
+      <main class="main-surface">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">India F&B operator console</p>
+            <h2>Menu Profitability Audit</h2>
+          </div>
+          <div class="topbar-actions">
+            <button id="sampleButton" type="button" class="secondary-button">Load sample data</button>
+            <button id="addFreshButton" type="button">New item</button>
+          </div>
+        </header>
+
+        <section class="metric-grid" aria-label="Audit scorecards">
+          <article class="metric-card">
+            <span>Net sales</span>
+            <strong id="metricRevenue">Rs. 0</strong>
+            <small id="metricOrders">0 orders audited</small>
+          </article>
+          <article class="metric-card">
+            <span>GST payable</span>
+            <strong id="metricGstPayable">Rs. 0</strong>
+            <small>estimated output GST</small>
+          </article>
+          <article class="metric-card">
+            <span>Contribution</span>
+            <strong id="metricContribution">Rs. 0</strong>
+            <small id="metricMargin">0% blended margin</small>
+          </article>
+          <article class="metric-card danger">
+            <span>Platform leakage</span>
+            <strong id="metricLeakage">Rs. 0</strong>
+            <small>commission, ads, discounts, fees</small>
+          </article>
+          <article class="metric-card warning">
+            <span>Bleeding items</span>
+            <strong id="metricBleeding">0</strong>
+            <small>negative contribution SKUs</small>
+          </article>
+        </section>
+
+        <section class="panel owner-report" id="ownerReport">
+          <div class="report-header">
+            <div>
+              <p class="eyebrow">Owner report</p>
+              <h2>48-Hour Profit Leakage Summary</h2>
+              <p id="reportNarrative" class="report-copy">Run the audit to generate the owner-ready summary.</p>
+            </div>
+            <div class="report-actions">
+              <button id="copyReportButton" type="button" class="secondary-button">Copy summary</button>
+              <button id="printReportButton" type="button">Print report</button>
+            </div>
+          </div>
+
+          <div class="report-grid">
+            <article class="report-card">
+              <span>Recoverable profit</span>
+              <strong id="reportRecovery">Rs. 0</strong>
+              <small>monthly opportunity from priority fixes</small>
+            </article>
+            <article class="report-card">
+              <span>90-day upside</span>
+              <strong id="reportQuarterUpside">Rs. 0</strong>
+              <small>if changes are executed this month</small>
+            </article>
+            <article class="report-card">
+              <span>Direct-order upside</span>
+              <strong id="reportDirectUpside">Rs. 0</strong>
+              <small>from shifting 15% of delivery repeats</small>
+            </article>
+            <article class="report-card">
+              <span>GST payable</span>
+              <strong id="reportGstPayable">Rs. 0</strong>
+              <small>estimated output GST on audited sales</small>
+            </article>
+            <article class="report-card">
+              <span>Price corrections</span>
+              <strong id="reportPriceCorrections">0</strong>
+              <small>items below target-margin price</small>
+            </article>
+          </div>
+
+          <div class="report-layout">
+            <div>
+              <div class="panel-title-row report-subhead">
+                <h3>Priority Fixes</h3>
+                <span class="status-pill" id="reportFixCount">0 fixes</span>
+              </div>
+              <div class="recovery-list" id="recoveryList"></div>
+            </div>
+            <div>
+              <div class="panel-title-row report-subhead">
+                <h3>Channel Leakage</h3>
+                <span class="status-pill" id="channelCount">0 channels</span>
+              </div>
+              <div class="channel-bars" id="channelBars"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="workbench">
+          <form class="editor-panel panel" id="itemForm">
+            <div class="panel-title-row">
+              <h2 id="formTitle">Add Menu Item</h2>
+              <span class="status-pill" id="formStatus">Draft</span>
+            </div>
+
+            <input type="hidden" id="itemId">
+            <div class="field-grid">
+              <label>
+                Dish name
+                <input id="nameInput" required autocomplete="off" placeholder="Paneer tikka bowl">
+              </label>
+              <label>
+                Category
+                <input id="categoryInput" autocomplete="off" placeholder="Mains">
+              </label>
+              <label>
+                Channel
+                <select id="channelInput"></select>
+              </label>
+              <label>
+                Monthly orders
+                <input id="ordersInput" type="number" min="0" step="1" value="120">
+              </label>
+              <label>
+                Selling price
+                <input id="priceInput" type="number" min="0" step="1" value="280">
+              </label>
+              <label>
+                Food cost
+                <input id="foodCostInput" type="number" min="0" step="1" value="92">
+              </label>
+              <label>
+                Packaging
+                <input id="packagingInput" type="number" min="0" step="1" value="16">
+              </label>
+              <label>
+                Prep minutes
+                <input id="prepInput" type="number" min="0" step="1" value="8">
+              </label>
+              <label>
+                Commission %
+                <input id="commissionInput" type="number" min="0" max="60" step="0.5" value="25">
+              </label>
+              <label>
+                Discount %
+                <input id="discountInput" type="number" min="0" max="80" step="0.5" value="8">
+              </label>
+              <label>
+                Marketing %
+                <input id="marketingInput" type="number" min="0" max="40" step="0.5" value="5">
+              </label>
+              <label>
+                Payment fee %
+                <input id="paymentInput" type="number" min="0" max="10" step="0.1" value="1.8">
+              </label>
+              <label>
+                Waste %
+                <input id="wasteInput" type="number" min="0" max="30" step="0.5" value="3">
+              </label>
+            </div>
+
+            <div class="formula-strip" aria-live="polite">
+              <div>
+                <span>Contribution/order</span>
+                <strong id="previewContribution">Rs. 0</strong>
+              </div>
+              <div>
+                <span>Current margin</span>
+                <strong id="previewMargin">0%</strong>
+              </div>
+              <div>
+                <span>Target price</span>
+                <strong id="previewPrice">Rs. 0</strong>
+              </div>
+            </div>
+
+            <div class="button-row">
+              <button id="saveItemButton" type="submit">Save item</button>
+              <button id="clearFormButton" type="button" class="secondary-button">Clear</button>
+            </div>
+          </form>
+
+          <section class="panel insight-panel">
+            <div class="panel-title-row">
+              <h2>Profit Alerts</h2>
+              <span class="status-pill" id="alertCount">0 alerts</span>
+            </div>
+            <div id="insightList" class="insight-list"></div>
+          </section>
+        </section>
+
+        <section class="panel table-panel">
+          <div class="panel-title-row">
+            <h2>Audited Menu</h2>
+            <div class="filter-group" role="group" aria-label="Filter menu audit">
+              <button class="filter-button active" data-filter="all" type="button">All</button>
+              <button class="filter-button" data-filter="bleeding" type="button">Bleeding</button>
+              <button class="filter-button" data-filter="watch" type="button">Watch</button>
+              <button class="filter-button" data-filter="healthy" type="button">Healthy</button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Dish</th>
+                  <th>Channel</th>
+                  <th>Menu price</th>
+                  <th>Net sales</th>
+                  <th>GST</th>
+                  <th>Food cost</th>
+                  <th>Leakage</th>
+                  <th>Margin</th>
+                  <th>Monthly profit</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="menuTable"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="app.js?v=5"></script>
+  </body>
+</html>
