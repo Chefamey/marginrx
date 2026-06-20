@@ -15,6 +15,8 @@ Open `index.html` in a browser to use it. The first version is static and runs e
 - Imports and exports simple CSV menu data.
 - Generates an owner-ready leakage summary with recoverable profit, 90-day upside, direct-order upside, and priority fixes.
 - Prints or copies the owner report for pilot calls.
+- Adds a private founder dashboard at `/admin` for restaurant leads, pipeline stages, saved audit archives, follow-up actions, audit fees, retainer potential, and JSON export.
+- Saves audit and dashboard data in browser storage during the pilot, ready to move into Supabase for real authentication and multi-device access.
 
 ## CSV Format
 
@@ -48,6 +50,19 @@ The wedge is a 48-hour menu and platform leakage audit:
 3. The output is a prioritized action list: reprice, portion-correct, move to direct order, renegotiate, or cut.
 
 The next build should add document upload, recipe yield logic, vendor price variance, GST/TCS/TDS reconciliation, and statement reconciliation.
+
+## Founder Dashboard
+
+Use `/admin` after deployment, or the Founder Dashboard switch inside the app.
+
+The dashboard is built for running paid pilots:
+
+- Track restaurant leads by stage: lead, qualified, demo, pilot, report sent, paid, retainer, lost.
+- Log audit fee, monthly retainer potential, recovery found, follow-up date, and next action.
+- Save the current menu audit into a client archive.
+- Load archived audits back into the calculator.
+- Copy saved owner reports for WhatsApp/email follow-up.
+- Export founder dashboard data as JSON for handoff into Supabase.
 
 ## Pilot Assets
 

@@ -17,7 +17,12 @@
           </div>
         </div>
 
-        <section class="panel compact-panel">
+        <nav class="view-switcher" aria-label="MarginRx workspace">
+          <a class="view-tab active" href="/" data-view-target="audit">Audit Console</a>
+          <a class="view-tab" href="/admin" data-view-target="admin">Founder Dashboard</a>
+        </nav>
+
+        <section class="panel compact-panel audit-controls">
           <div class="panel-title-row">
             <h2>Audit Assumptions</h2>
             <button class="icon-button" id="resetDefaultsButton" type="button" title="Reset assumptions">Reset</button>
@@ -59,14 +64,14 @@
           <input id="commissionGstInput" type="range" min="0" max="18" step="1" value="18">
         </section>
 
-        <section class="panel compact-panel">
+        <section class="panel compact-panel audit-controls">
           <div class="panel-title-row">
             <h2>Channel Presets</h2>
           </div>
           <div class="preset-list" id="presetList"></div>
         </section>
 
-        <section class="panel compact-panel">
+        <section class="panel compact-panel audit-controls">
           <div class="panel-title-row">
             <h2>CSV Intake</h2>
           </div>
@@ -77,7 +82,7 @@
           </div>
         </section>
 
-        <section class="panel compact-panel">
+        <section class="panel compact-panel audit-controls">
           <div class="panel-title-row">
             <h2>Pilot Pack</h2>
           </div>
@@ -91,6 +96,7 @@
       </aside>
 
       <main class="main-surface">
+        <section class="view-pane active" id="auditView" data-view="audit">
         <header class="topbar">
           <div>
             <p class="eyebrow">India F&B operator console</p>
@@ -313,6 +319,182 @@
               <tbody id="menuTable"></tbody>
             </table>
           </div>
+        </section>
+        </section>
+
+        <section class="view-pane" id="adminView" data-view="admin" aria-labelledby="adminHeading">
+          <header class="topbar admin-topbar">
+            <div>
+              <p class="eyebrow">Private founder workspace</p>
+              <h2 id="adminHeading">Backend Dashboard</h2>
+            </div>
+            <div class="topbar-actions">
+              <button id="saveAuditSnapshotButton" type="button">Save current audit</button>
+              <button id="exportAdminButton" type="button" class="secondary-button">Export JSON</button>
+            </div>
+          </header>
+
+          <section class="metric-grid admin-metric-grid" aria-label="Founder dashboard scorecards">
+            <article class="metric-card">
+              <span>Active pilots</span>
+              <strong id="adminActivePilots">0</strong>
+              <small>demo, audit, or report stage</small>
+            </article>
+            <article class="metric-card">
+              <span>90-day pipeline</span>
+              <strong id="adminPipeline">Rs. 0</strong>
+              <small>audit fees plus first retainers</small>
+            </article>
+            <article class="metric-card">
+              <span>Recovery logged</span>
+              <strong id="adminRecovery">Rs. 0</strong>
+              <small>monthly client upside found</small>
+            </article>
+            <article class="metric-card warning">
+              <span>Follow-ups due</span>
+              <strong id="adminFollowups">0</strong>
+              <small>next actions due now</small>
+            </article>
+            <article class="metric-card">
+              <span>Saved reports</span>
+              <strong id="adminReports">0</strong>
+              <small>owner summaries archived</small>
+            </article>
+          </section>
+
+          <section class="backend-grid">
+            <form class="panel admin-form" id="restaurantForm">
+              <div class="panel-title-row">
+                <h2 id="restaurantFormTitle">Add Restaurant Lead</h2>
+                <span class="status-pill" id="restaurantFormStatus">Lead</span>
+              </div>
+
+              <input type="hidden" id="restaurantId">
+              <div class="field-grid admin-field-grid">
+                <label>
+                  Restaurant / brand
+                  <input id="restaurantNameInput" required autocomplete="off" placeholder="Bombay Bowl Co.">
+                </label>
+                <label>
+                  City
+                  <input id="restaurantCityInput" autocomplete="off" placeholder="Mumbai">
+                </label>
+                <label>
+                  Owner / chef
+                  <input id="restaurantOwnerInput" autocomplete="off" placeholder="Chef / founder name">
+                </label>
+                <label>
+                  Phone / WhatsApp
+                  <input id="restaurantPhoneInput" autocomplete="off" placeholder="+91...">
+                </label>
+                <label>
+                  Segment
+                  <select id="restaurantSegmentInput">
+                    <option value="Cloud kitchen">Cloud kitchen</option>
+                    <option value="Cafe">Cafe</option>
+                    <option value="Casual dining">Casual dining</option>
+                    <option value="QSR">QSR</option>
+                    <option value="Bakery">Bakery</option>
+                    <option value="Catering">Catering</option>
+                  </select>
+                </label>
+                <label>
+                  Pipeline stage
+                  <select id="restaurantStageInput"></select>
+                </label>
+                <label>
+                  Audit fee
+                  <input id="restaurantAuditFeeInput" type="number" min="0" step="500" value="15000">
+                </label>
+                <label>
+                  Monthly retainer
+                  <input id="restaurantRetainerInput" type="number" min="0" step="1000" value="25000">
+                </label>
+                <label>
+                  Recovery found
+                  <input id="restaurantRecoveryInput" type="number" min="0" step="1000" value="0">
+                </label>
+                <label>
+                  Last touch
+                  <input id="restaurantLastTouchInput" type="date">
+                </label>
+                <label>
+                  Next follow-up
+                  <input id="restaurantNextFollowupInput" type="date">
+                </label>
+                <label>
+                  Next action
+                  <input id="restaurantNextStepInput" autocomplete="off" placeholder="Send owner report">
+                </label>
+              </div>
+
+              <label class="notes-field">
+                Notes
+                <textarea id="restaurantNotesInput" rows="4" placeholder="Pain points, data received, objections, pricing context"></textarea>
+              </label>
+
+              <div class="button-row">
+                <button id="saveRestaurantButton" type="submit">Save lead</button>
+                <button id="clearRestaurantButton" type="button" class="secondary-button">Clear</button>
+              </div>
+            </form>
+
+            <section class="panel admin-panel">
+              <div class="panel-title-row">
+                <h2>Pipeline Board</h2>
+                <span class="status-pill" id="pipelineCount">0 leads</span>
+              </div>
+              <div class="stage-board" id="stageBoard"></div>
+            </section>
+          </section>
+
+          <section class="admin-layout">
+            <section class="panel admin-panel">
+              <div class="panel-title-row">
+                <h2>Restaurant Pipeline</h2>
+                <span class="status-pill" id="selectedRestaurantLabel">No lead selected</span>
+              </div>
+              <div class="table-wrap">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Restaurant</th>
+                      <th>Stage</th>
+                      <th>Pipeline</th>
+                      <th>Recovery</th>
+                      <th>Next action</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="restaurantTable"></tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="panel admin-panel">
+              <div class="panel-title-row">
+                <h2>Saved Audit Archive</h2>
+                <span class="status-pill" id="auditArchiveCount">0 reports</span>
+              </div>
+              <div class="audit-archive" id="auditArchive"></div>
+            </section>
+          </section>
+
+          <section class="panel backend-status">
+            <div>
+              <p class="eyebrow">Backend readiness</p>
+              <h2>Supabase handoff map</h2>
+              <p>Dashboard data is saved in this browser today. The same objects map to Supabase tables for private auth, team access, saved reports, and shareable owner links.</p>
+            </div>
+            <div class="backend-checks" aria-label="Backend readiness checklist">
+              <span>restaurants</span>
+              <span>outlets</span>
+              <span>audit_runs</span>
+              <span>audit_recommendations</span>
+              <span>pipeline_events</span>
+              <span>report_links</span>
+            </div>
+          </section>
         </section>
       </main>
     </div>
