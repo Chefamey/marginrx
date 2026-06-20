@@ -55,6 +55,8 @@ The next build should add document upload, recipe yield logic, vendor price vari
 
 Use `/admin` after deployment, or the Founder Dashboard switch inside the app.
 
+The `/admin` route is protected by a Vercel serverless Basic Auth gate. The committed default stores only a SHA-256 password hash. For production rotation, set `ADMIN_USER` plus either `ADMIN_PASSWORD` or `ADMIN_PASSWORD_HASH` in Vercel environment variables, then redeploy.
+
 The dashboard is built for running paid pilots:
 
 - Track restaurant leads by stage: lead, qualified, demo, pilot, report sent, paid, retainer, lost.

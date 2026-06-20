@@ -4,11 +4,11 @@
   "rewrites": [
     {
       "source": "/admin",
-      "destination": "/"
+      "destination": "/api/admin"
     },
     {
       "source": "/admin/:path*",
-      "destination": "/"
+      "destination": "/api/admin"
     }
   ],
   "headers": [

@@ -33,4 +33,10 @@ Use Supabase in V1 for:
 - recipe ingredient costing
 - monthly report history
 
-Add environment variables from `.env.example` only when the app starts using Supabase.
+Add environment variables from `.env.example` when the app starts using Supabase or when rotating the admin dashboard credentials.
+
+For `/admin` password rotation:
+
+- Set `ADMIN_USER` if the username should change.
+- Set `ADMIN_PASSWORD` for a simple rotation, or `ADMIN_PASSWORD_HASH` for a hash-only secret.
+- Redeploy after changing production environment variables.

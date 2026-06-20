@@ -185,8 +185,8 @@ function todayIso(offsetDays = 0) {
 }
 
 function initialView() {
-  const params = new URLSearchParams(window.location.search);
-  if (window.location.pathname === "/admin" || window.location.hash === "#admin" || params.get("view") === "admin") {
+  const path = window.location.pathname.replace(/\/+$/, "");
+  if (path === "/admin" || path.startsWith("/admin/")) {
     return "admin";
   }
   return "audit";
@@ -1379,8 +1379,14 @@ function escapeHtml(value) {
 function bindEvents() {
   dom.viewTabs.forEach((tab) => {
     tab.addEventListener("click", (event) => {
+      const targetView = tab.dataset.viewTarget;
+      const currentPath = window.location.pathname.replace(/\/+$/, "");
+      const onAdminPath = currentPath === "/admin" || currentPath.startsWith("/admin/");
+      if ((targetView === "admin" && !onAdminPath) || (targetView === "audit" && onAdminPath)) {
+        return;
+      }
       event.preventDefault();
-      setView(tab.dataset.viewTarget);
+      setView(targetView);
     });
   });
 
