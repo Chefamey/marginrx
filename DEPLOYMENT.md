@@ -1,42 +1,35 @@
-# MarginRx Deployment
+# Deployment
 
-## Current App
+House OS v0.1 deploys as a standard Next.js app on Vercel.
 
-MarginRx is a static app, so Vercel can deploy it directly from this repository.
+## Vercel
 
-## Vercel Settings
+1. Push the repository to GitHub.
+2. Import the repository in Vercel.
+3. Framework preset: Next.js.
+4. Install/build commands can use Vercel defaults for pnpm, or set build command to `pnpm build`.
+5. Add environment variables:
 
-- Framework preset: Other
-- Build command: leave blank
-- Output directory: leave blank
-- Install command: leave blank
+```bash
+NEXT_PUBLIC_SUPABASE_URL=your-project-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+```
 
-## GitHub Flow
+6. Deploy.
 
-1. Create a GitHub repository named `marginrx`.
-2. Push this folder to that repository.
-3. In Vercel, choose Add New Project.
-4. Import the `marginrx` GitHub repository.
-5. Deploy with default static settings.
+## Supabase
 
-## Supabase Later
+1. Create a Supabase project.
+2. Run `supabase/schema.sql` in the SQL editor.
+3. Create the private founder user in Supabase Auth.
+4. Confirm email/password login is enabled.
 
-Supabase is not required for the current static pilot.
+Row level security keeps `house_entries` private to the authenticated owner.
 
-Use Supabase in V1 for:
+## Routes
 
-- restaurant accounts
-- outlet records
-- saved audits
-- uploaded payout files
-- vendor bill lines
-- recipe ingredient costing
-- monthly report history
-
-Add environment variables from `.env.example` when the app starts using Supabase or when rotating the admin dashboard credentials.
-
-For `/admin` password rotation:
-
-- Set `ADMIN_USER` if the username should change.
-- Set `ADMIN_PASSWORD` for a simple rotation, or `ADMIN_PASSWORD_HASH` for a hash-only secret.
-- Redeploy after changing production environment variables.
+- `/login` - secure access
+- `/dashboard` - executive dashboard
+- `/entries` - searchable archive
+- `/entries/new` - create record
+- `/ask` - AI Ask placeholder for v0.1

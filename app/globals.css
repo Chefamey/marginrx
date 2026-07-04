@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  background: #f7f7f4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(184, 150, 82, 0.13), transparent 32rem),
+    linear-gradient(135deg, #fbfbf8 0%, #f1f0eb 52%, #e7e5dd 100%);
+  color: #111110;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+::selection {
+  background: #111110;
+  color: #f7f7f4;
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+}
+
+textarea {
+  min-height: 11rem;
+}
+
+.field {
+  @apply w-full rounded-md border border-line bg-white/80 px-3 py-2.5 text-sm text-ink outline-none transition focus:border-ink focus:ring-2 focus:ring-ink/10;
+}
+
+.label {
+  @apply text-xs font-semibold uppercase tracking-[0.16em] text-ink-muted;
+}
+
+.button-primary {
+  @apply inline-flex items-center justify-center rounded-md bg-ink px-4 py-2.5 text-sm font-semibold text-paper transition hover:bg-black focus:outline-none focus:ring-2 focus:ring-ink/20;
+}
+
+.button-secondary {
+  @apply inline-flex items-center justify-center rounded-md border border-line bg-white/70 px-4 py-2.5 text-sm font-semibold text-ink transition hover:border-ink focus:outline-none focus:ring-2 focus:ring-ink/10;
+}
+
+.panel {
+  @apply rounded-lg border border-line bg-white/75 shadow-executive backdrop-blur;
+}
+
+.quiet-link {
+  @apply text-sm font-semibold text-ink-muted transition hover:text-ink;
+}

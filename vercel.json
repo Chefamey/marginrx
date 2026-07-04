@@ -1,16 +1,5 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": false,
-  "rewrites": [
-    {
-      "source": "/admin",
-      "destination": "/api/admin"
-    },
-    {
-      "source": "/admin/:path*",
-      "destination": "/api/admin"
-    }
-  ],
+  "framework": "nextjs",
   "headers": [
     {
       "source": "/(.*)",
