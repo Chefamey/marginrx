@@ -5,6 +5,8 @@ import { SetupNotice } from "@/components/SetupNotice";
 import { getAuthenticatedUser } from "@/lib/entries";
 import { houseModules } from "@/lib/modules";
 
+export const dynamic = "force-dynamic";
+
 export default async function PrivateLayout({ children }: { children: React.ReactNode }) {
   const { user, configMissing } = await getAuthenticatedUser();
 
