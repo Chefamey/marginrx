@@ -13,6 +13,10 @@ House OS v0.1 deploys as a standard Next.js app on Vercel.
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=your-project-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+HOUSE_OS_GPT_TOKEN=generate-a-long-private-token
+HOUSE_OS_OWNER_USER_ID=founder-supabase-user-id
+HOUSE_OS_OWNER_EMAIL=chef.marathe@gmail.com
 ```
 
 6. Deploy.
@@ -33,3 +37,6 @@ Row level security keeps `house_entries` private to the authenticated owner.
 - `/entries` - searchable archive
 - `/entries/new` - create record
 - `/ask` - AI Ask placeholder for v0.1
+- `/api/gpt/openapi` - OpenAPI schema for custom GPT Actions
+- `/api/gpt/summary` - token-gated read-only GPT summary endpoint
+- `/api/gpt/entries` - token-gated read-only GPT record search endpoint

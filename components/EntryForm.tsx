@@ -16,7 +16,9 @@ export function EntryForm({ action, entry, defaultModule, submitLabel }: EntryFo
   const selectedModule = entry?.module ?? defaultModule ?? "founders_codex";
 
   return (
-    <form action={action} className="panel p-6">
+    <form action={action} className="panel overflow-hidden">
+      <div className="h-1 signal-rail" />
+      <div className="p-6">
       <div className="grid gap-5 lg:grid-cols-2">
         <label className="space-y-2">
           <span className="label">Module</span>
@@ -65,6 +67,7 @@ export function EntryForm({ action, entry, defaultModule, submitLabel }: EntryFo
           {submitLabel}
         </button>
         <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-muted">Private institutional record</p>
+      </div>
       </div>
     </form>
   );

@@ -4,7 +4,7 @@
 
 :root {
   color-scheme: light;
-  background: #f7f7f4;
+  background: #f8faf7;
 }
 
 * {
@@ -19,8 +19,10 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(circle at top left, rgba(184, 150, 82, 0.13), transparent 32rem),
-    linear-gradient(135deg, #fbfbf8 0%, #f1f0eb 52%, #e7e5dd 100%);
+    linear-gradient(90deg, rgba(15, 159, 110, 0.06) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(36, 88, 219, 0.05) 1px, transparent 1px),
+    linear-gradient(135deg, #fbfdf9 0%, #f1f7f3 45%, #e9eff6 100%);
+  background-size: 44px 44px, 44px 44px, auto;
   color: #111110;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -42,7 +44,7 @@ textarea {
 }
 
 .field {
-  @apply w-full rounded-md border border-line bg-white/80 px-3 py-2.5 text-sm text-ink outline-none transition focus:border-ink focus:ring-2 focus:ring-ink/10;
+  @apply w-full rounded-md border border-line bg-white/90 px-3 py-2.5 text-sm text-ink outline-none transition focus:border-jade focus:ring-2 focus:ring-jade/20;
 }
 
 .label {
@@ -50,17 +52,36 @@ textarea {
 }
 
 .button-primary {
-  @apply inline-flex items-center justify-center rounded-md bg-ink px-4 py-2.5 text-sm font-semibold text-paper transition hover:bg-black focus:outline-none focus:ring-2 focus:ring-ink/20;
+  @apply inline-flex items-center justify-center rounded-md bg-ink px-4 py-2.5 text-sm font-semibold text-paper shadow-command transition hover:bg-black focus:outline-none focus:ring-2 focus:ring-jade/30;
 }
 
 .button-secondary {
-  @apply inline-flex items-center justify-center rounded-md border border-line bg-white/70 px-4 py-2.5 text-sm font-semibold text-ink transition hover:border-ink focus:outline-none focus:ring-2 focus:ring-ink/10;
+  @apply inline-flex items-center justify-center rounded-md border border-line bg-white/80 px-4 py-2.5 text-sm font-semibold text-ink transition hover:border-jade hover:text-jade focus:outline-none focus:ring-2 focus:ring-jade/20;
 }
 
 .panel {
-  @apply rounded-lg border border-line bg-white/75 shadow-executive backdrop-blur;
+  @apply rounded-lg border border-line bg-white/[0.82] shadow-executive backdrop-blur;
 }
 
 .quiet-link {
-  @apply text-sm font-semibold text-ink-muted transition hover:text-ink;
+  @apply text-sm font-semibold text-ink-muted transition hover:text-jade;
+}
+
+.command-surface {
+  background:
+    linear-gradient(135deg, rgba(15, 159, 110, 0.18), transparent 34%),
+    linear-gradient(225deg, rgba(36, 88, 219, 0.22), transparent 38%),
+    linear-gradient(180deg, #141410 0%, #080807 100%);
+}
+
+.signal-rail {
+  background: linear-gradient(90deg, #0f9f6e 0%, #2458db 48%, #d6285f 100%);
+}
+
+.metric-card {
+  @apply rounded-lg border border-white/70 bg-white/[0.85] p-5 shadow-executive backdrop-blur transition hover:-translate-y-0.5 hover:border-jade/40;
+}
+
+.module-card {
+  @apply rounded-lg border border-line bg-white/[0.85] p-4 transition hover:-translate-y-0.5 hover:border-jade/40 hover:shadow-executive;
 }

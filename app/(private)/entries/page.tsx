@@ -20,11 +20,13 @@ export default async function EntriesPage({ searchParams }: EntriesPageProps) {
 
   return (
     <div className="space-y-6">
-      <section className="panel p-6">
+      <section className="panel overflow-hidden">
+        <div className="h-1 signal-rail" />
+        <div className="p-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="label">Archive</p>
-            <h2 className="mt-2 text-3xl font-semibold tracking-tight">House Records</h2>
+            <h2 className="mt-2 text-4xl font-semibold tracking-tight">House Records</h2>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-ink-muted">
               Search founder memory across doctrine, projects, relationships, decisions, principles, wealth, and prophetic record.
             </p>
@@ -48,6 +50,7 @@ export default async function EntriesPage({ searchParams }: EntriesPageProps) {
             Search
           </button>
         </form>
+        </div>
       </section>
 
       <section className="grid gap-4 xl:grid-cols-2">

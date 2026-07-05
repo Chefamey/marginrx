@@ -21,7 +21,9 @@ export default async function EntryPage({ params }: EntryPageProps) {
 
   return (
     <article className="space-y-6">
-      <section className="panel p-6">
+      <section className="panel overflow-hidden">
+        <div className="h-1 signal-rail" />
+        <div className="p-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
@@ -52,6 +54,7 @@ export default async function EntryPage({ params }: EntryPageProps) {
             ))}
           </div>
         ) : null}
+        </div>
       </section>
 
       <section className="grid gap-5 xl:grid-cols-[1fr_22rem]">

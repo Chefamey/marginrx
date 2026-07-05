@@ -38,6 +38,10 @@ pnpm install
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=your-project-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+HOUSE_OS_GPT_TOKEN=generate-a-long-private-token
+HOUSE_OS_OWNER_USER_ID=founder-supabase-user-id
+HOUSE_OS_OWNER_EMAIL=chef.marathe@gmail.com
 ```
 
 3. Run `supabase/schema.sql` in the Supabase SQL editor.
@@ -63,4 +67,21 @@ The protected app surfaces are:
 - `/entries/new`
 - `/ask`
 
-`/login` uses Supabase email/password authentication. v0.1 includes an AI Ask placeholder only; it does not send private records to an AI provider.
+`/login` uses Supabase email/password authentication. v0.1 keeps the in-app AI Ask surface as a placeholder, and adds a separate read-only GPT Action API behind `HOUSE_OS_GPT_TOKEN`.
+
+## Private GPT Access
+
+OpenAPI schema:
+
+```text
+https://marginrx.vercel.app/api/gpt/openapi
+```
+
+Protected read endpoints:
+
+```text
+GET /api/gpt/summary
+GET /api/gpt/entries?q=&module=&category=&tag=&limit=
+```
+
+Configure the custom GPT Action with bearer-token authentication using `HOUSE_OS_GPT_TOKEN`. The API is read-only and requires `SUPABASE_SERVICE_ROLE_KEY` on the server so the GPT can retrieve founder records without a browser login session. Set either `HOUSE_OS_OWNER_USER_ID` or `HOUSE_OS_OWNER_EMAIL` so the endpoint is pinned to the founder account.
