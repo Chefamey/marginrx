@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { signInAction } from "@/app/login/actions";
+import { InviteSessionBridge } from "@/app/login/invite-session-bridge";
 import { getAuthenticatedUser } from "@/lib/entries";
 
 export const dynamic = "force-dynamic";
@@ -40,6 +41,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           <input type="hidden" name="redirectTo" value={searchParams.redirectTo ?? "/dashboard"} />
           <p className="label">Secure Login</p>
           <h2 className="mt-2 text-2xl font-semibold tracking-tight">Enter the private system.</h2>
+          <InviteSessionBridge />
 
           {configMissing ? (
             <p className="mt-4 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900">
