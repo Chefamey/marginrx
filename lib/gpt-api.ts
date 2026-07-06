@@ -205,9 +205,9 @@ function normalizeDate(value: unknown, field: string, fallback?: string) {
 }
 
 function normalizeModuleField(value: unknown, required: boolean, fallback?: HouseModule) {
-  const module = typeof value === "string" && value.trim() ? value.trim() : fallback;
+  const normalizedModule = typeof value === "string" && value.trim() ? value.trim() : fallback;
 
-  if (!module) {
+  if (!normalizedModule) {
     if (required) {
       throw new GptApiError("module is required.");
     }
@@ -215,11 +215,11 @@ function normalizeModuleField(value: unknown, required: boolean, fallback?: Hous
     return undefined;
   }
 
-  if (!isHouseModule(module)) {
+  if (!isHouseModule(normalizedModule)) {
     throw new GptApiError(`module must be one of: ${houseModules.map((item) => item.key).join(", ")}.`);
   }
 
-  return module;
+  return normalizedModule;
 }
 
 function normalizeCreatePayload(input: unknown): HouseEntryPayload {
@@ -435,12 +435,12 @@ export async function updateGptEntry(entryId: string, input: unknown) {
 export async function upsertGptDailyUpdate(input: unknown) {
   const body = requireJsonRecord(input);
   const date = normalizeDate(body.date ?? body.entry_date, "date", currentHouseDate());
-  const module = normalizeModuleField(body.module, false, "projects")!;
+  const entryModule = normalizeModuleField(body.module, false, "projects")!;
   const category = textField(body.category, "category", MAX_CATEGORY_LENGTH, false) || "Daily Operating Update";
   const title = textField(body.title, "title", MAX_TITLE_LENGTH, false) || `Daily House OS Update - ${date}`;
   const tags = Array.from(new Set(["daily-update", "gpt-action", ...normalizeTags(body.tags)])).slice(0, MAX_TAGS);
   const payload: HouseEntryPayload = {
-    module,
+    module: entryModule,
     title,
     category,
     tags,
