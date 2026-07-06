@@ -6,7 +6,7 @@ export default function AskPage() {
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-paper/50">GPT Access Layer</p>
           <h2 className="mt-3 text-4xl font-semibold tracking-tight">Ask House OS</h2>
           <p className="mt-4 max-w-2xl text-sm leading-6 text-paper/70">
-            The in-app AI surface remains a v0.1 placeholder. The GPT integration is now prepared through a private, token-gated Action API for read-only retrieval.
+            The in-app AI surface remains a v0.1 placeholder. The GPT integration is now prepared through a private, token-gated Action API for retrieval, creation, updates, and daily operating memory.
           </p>
         </div>
         <div className="h-1 signal-rail" />
@@ -20,12 +20,12 @@ export default function AskPage() {
           <div className="bg-white p-5">
             <p className="label">Auth Mode</p>
             <p className="mt-3 text-sm font-semibold text-ink">Bearer token</p>
-            <p className="mt-2 text-xs leading-5 text-ink-muted">Use `HOUSE_OS_GPT_TOKEN` as the GPT Action secret.</p>
+            <p className="mt-2 text-xs leading-5 text-ink-muted">Use `HOUSE_OS_GPT_TOKEN` as the GPT Action secret. `HOUSE_OS_GPT_WRITE_TOKEN` is optional for separate write access.</p>
           </div>
           <div className="bg-white p-5">
             <p className="label">Access Level</p>
-            <p className="mt-3 text-sm font-semibold text-ink">Read only</p>
-            <p className="mt-2 text-xs leading-5 text-ink-muted">The GPT can search and summarize records, not create or edit them.</p>
+            <p className="mt-3 text-sm font-semibold text-ink">Read and write</p>
+            <p className="mt-2 text-xs leading-5 text-ink-muted">The GPT can search, summarize, create, and update records. Delete actions are not exposed.</p>
           </div>
         </div>
       </section>
@@ -52,6 +52,18 @@ export default function AskPage() {
             <div className="rounded-md border border-line bg-white px-3 py-3">
               <p className="font-semibold text-ink">Search records</p>
               <code className="mt-1 block text-xs text-ink-muted">GET /api/gpt/entries?q=&amp;module=&amp;limit=</code>
+            </div>
+            <div className="rounded-md border border-line bg-white px-3 py-3">
+              <p className="font-semibold text-ink">Create record</p>
+              <code className="mt-1 block text-xs text-ink-muted">POST /api/gpt/entries</code>
+            </div>
+            <div className="rounded-md border border-line bg-white px-3 py-3">
+              <p className="font-semibold text-ink">Update record</p>
+              <code className="mt-1 block text-xs text-ink-muted">PATCH /api/gpt/entries/:id</code>
+            </div>
+            <div className="rounded-md border border-line bg-white px-3 py-3">
+              <p className="font-semibold text-ink">Daily update</p>
+              <code className="mt-1 block text-xs text-ink-muted">POST /api/gpt/daily-update</code>
             </div>
             <p className="text-xs leading-5 text-ink-muted">
               Required Vercel env vars: `HOUSE_OS_GPT_TOKEN`, `SUPABASE_SERVICE_ROLE_KEY`, and `HOUSE_OS_OWNER_USER_ID` or `HOUSE_OS_OWNER_EMAIL`.

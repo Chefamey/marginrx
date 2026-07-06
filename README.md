@@ -40,6 +40,7 @@ NEXT_PUBLIC_SUPABASE_URL=your-project-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 HOUSE_OS_GPT_TOKEN=generate-a-long-private-token
+HOUSE_OS_GPT_WRITE_TOKEN=optional-separate-write-token
 HOUSE_OS_OWNER_USER_ID=founder-supabase-user-id
 HOUSE_OS_OWNER_EMAIL=chef.marathe@gmail.com
 ```
@@ -67,7 +68,7 @@ The protected app surfaces are:
 - `/entries/new`
 - `/ask`
 
-`/login` uses Supabase email/password authentication. v0.1 keeps the in-app AI Ask surface as a placeholder, and adds a separate read-only GPT Action API behind `HOUSE_OS_GPT_TOKEN`.
+`/login` uses Supabase email/password authentication. v0.1 keeps the in-app AI Ask surface as a placeholder, and adds a separate GPT Action API behind `HOUSE_OS_GPT_TOKEN`.
 
 ## Private GPT Access
 
@@ -77,11 +78,19 @@ OpenAPI schema:
 https://house-os-nine.vercel.app/api/gpt/openapi.json
 ```
 
-Protected read endpoints:
+Protected GPT endpoints:
 
 ```text
 GET /api/gpt/summary
 GET /api/gpt/entries?q=&module=&category=&tag=&limit=
+POST /api/gpt/entries
+GET /api/gpt/entries/:id
+PATCH /api/gpt/entries/:id
+POST /api/gpt/daily-update
 ```
 
-Configure the custom GPT Action with bearer-token authentication using `HOUSE_OS_GPT_TOKEN`. The API is read-only and requires `SUPABASE_SERVICE_ROLE_KEY` on the server so the GPT can retrieve founder records without a browser login session. Set either `HOUSE_OS_OWNER_USER_ID` or `HOUSE_OS_OWNER_EMAIL` so the endpoint is pinned to the founder account.
+Configure the custom GPT Action with bearer-token authentication using `HOUSE_OS_GPT_TOKEN`. Writes may use `HOUSE_OS_GPT_WRITE_TOKEN` when set; otherwise the main GPT token authorizes both reads and writes. The API does not expose delete actions.
+
+The server requires `SUPABASE_SERVICE_ROLE_KEY` so the GPT can access founder records without a browser login session. Set either `HOUSE_OS_OWNER_USER_ID` or `HOUSE_OS_OWNER_EMAIL` so every action is pinned to the founder account.
+
+Daily maintenance is handled through `POST /api/gpt/daily-update`, which creates or updates one operating update for the current Asia/Kolkata date unless a date is supplied. The endpoint is ready for a scheduled GPT/external automation to call once per day; GPT itself only updates House OS when an action is invoked.

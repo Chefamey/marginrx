@@ -1,20 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
-  createGptEntry,
-  getGptEntries,
+  getGptEntry,
   gptApiErrorResponse,
   hasGptDataConfig,
   isAuthorizedGptRequest,
   isAuthorizedGptWriteRequest,
   missingGptConfigResponse,
   readGptJson,
-  unauthorizedGptResponse
+  unauthorizedGptResponse,
+  updateGptEntry
 } from "@/lib/gpt-api";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
-export async function GET(request: NextRequest) {
+type EntryRouteContext = {
+  params: {
+    id: string;
+  };
+};
+
+export async function GET(request: NextRequest, { params }: EntryRouteContext) {
   if (!isAuthorizedGptRequest(request)) {
     return unauthorizedGptResponse();
   }
@@ -24,17 +30,14 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const entries = await getGptEntries(request.nextUrl.searchParams);
-    return NextResponse.json({
-      records: entries,
-      count: entries.length
-    });
+    const record = await getGptEntry(params.id);
+    return NextResponse.json({ record });
   } catch (error) {
-    return gptApiErrorResponse(error, "Unable to read House OS records");
+    return gptApiErrorResponse(error, "Unable to read House OS record");
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function PATCH(request: NextRequest, { params }: EntryRouteContext) {
   if (!isAuthorizedGptWriteRequest(request)) {
     return unauthorizedGptResponse();
   }
@@ -44,9 +47,9 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const record = await createGptEntry(await readGptJson(request));
-    return NextResponse.json({ record }, { status: 201 });
+    const record = await updateGptEntry(params.id, await readGptJson(request));
+    return NextResponse.json({ record });
   } catch (error) {
-    return gptApiErrorResponse(error, "Unable to create House OS record");
+    return gptApiErrorResponse(error, "Unable to update House OS record");
   }
 }
