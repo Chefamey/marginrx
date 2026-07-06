@@ -14,7 +14,7 @@ export default function AskPage() {
           <div className="bg-white p-5">
             <p className="label">Schema URL</p>
             <code className="mt-3 block rounded-md border border-line bg-paper px-3 py-2 text-xs text-ink">
-              https://marginrx.vercel.app/api/gpt/openapi
+              https://house-os-nine.vercel.app/api/gpt/openapi.json
             </code>
           </div>
           <div className="bg-white p-5">

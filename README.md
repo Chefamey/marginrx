@@ -74,7 +74,7 @@ The protected app surfaces are:
 OpenAPI schema:
 
 ```text
-https://marginrx.vercel.app/api/gpt/openapi
+https://house-os-nine.vercel.app/api/gpt/openapi.json
 ```
 
 Protected read endpoints:

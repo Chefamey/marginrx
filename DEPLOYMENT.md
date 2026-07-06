@@ -37,6 +37,6 @@ Row level security keeps `house_entries` private to the authenticated owner.
 - `/entries` - searchable archive
 - `/entries/new` - create record
 - `/ask` - AI Ask placeholder for v0.1
-- `/api/gpt/openapi` - OpenAPI schema for custom GPT Actions
+- `/api/gpt/openapi.json` - OpenAPI schema for custom GPT Actions
 - `/api/gpt/summary` - token-gated read-only GPT summary endpoint
 - `/api/gpt/entries` - token-gated read-only GPT record search endpoint
