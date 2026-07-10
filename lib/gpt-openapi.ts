@@ -4,7 +4,7 @@ const MODULE_KEYS = houseModules.map((module) => module.key);
 
 export function buildGptOpenApiSpec(origin: string) {
   return {
-    openapi: "3.0.3",
+    openapi: "3.1.0",
     info: {
       title: "House OS GPT Access",
       description:
@@ -343,8 +343,7 @@ export function buildGptOpenApiSpec(origin: string) {
             entry_date: { type: "string", format: "date" },
             body: { type: "string" },
             context: {
-              type: "string",
-              nullable: true
+              type: ["string", "null"]
             },
             created_at: { type: "string", format: "date-time" },
             updated_at: { type: "string", format: "date-time" }
@@ -366,8 +365,7 @@ export function buildGptOpenApiSpec(origin: string) {
             entry_date: { type: "string", format: "date" },
             body: { type: "string", maxLength: 20000 },
             context: {
-              type: "string",
-              nullable: true,
+              type: ["string", "null"],
               maxLength: 8000
             }
           }
@@ -387,8 +385,7 @@ export function buildGptOpenApiSpec(origin: string) {
             entry_date: { type: "string", format: "date" },
             body: { type: "string", maxLength: 20000 },
             context: {
-              type: "string",
-              nullable: true,
+              type: ["string", "null"],
               maxLength: 8000
             }
           }
@@ -428,8 +425,7 @@ export function buildGptOpenApiSpec(origin: string) {
               description: "Daily operating update content to preserve in House OS."
             },
             context: {
-              type: "string",
-              nullable: true,
+              type: ["string", "null"],
               maxLength: 8000
             }
           }
