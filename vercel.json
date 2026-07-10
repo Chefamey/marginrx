@@ -1,5 +1,11 @@
 {
   "framework": "nextjs",
+  "crons": [
+    {
+      "path": "/api/cron/daily-house-update",
+      "schedule": "30 2 * * *"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
