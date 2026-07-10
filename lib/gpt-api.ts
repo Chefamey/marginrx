@@ -432,7 +432,7 @@ export async function updateGptEntry(entryId: string, input: unknown) {
   return publicEntry(data as HouseEntry);
 }
 
-export async function upsertGptDailyUpdate(input: unknown) {
+function normalizeDailyUpdatePayload(input: unknown) {
   const body = requireJsonRecord(input);
   const date = normalizeDate(body.date ?? body.entry_date, "date", currentHouseDate());
   const entryModule = normalizeModuleField(body.module, false, "projects")!;
@@ -451,10 +451,11 @@ export async function upsertGptDailyUpdate(input: unknown) {
       "Created through the secure House OS GPT daily update API."
   };
 
-  const supabase = createSupabaseAdminClient();
-  const ownerUserId = await resolveOwnerUserId(supabase);
+  return payload;
+}
 
-  const { data: existing, error: findError } = await supabase
+async function findMatchingDailyUpdate(supabase: ReturnType<typeof createSupabaseAdminClient>, ownerUserId: string, payload: HouseEntryPayload) {
+  const { data, error } = await supabase
     .from("house_entries")
     .select("*")
     .eq("user_id", ownerUserId)
@@ -464,9 +465,49 @@ export async function upsertGptDailyUpdate(input: unknown) {
     .eq("title", payload.title)
     .maybeSingle();
 
-  if (findError) {
-    throw new Error(findError.message);
+  if (error) {
+    throw new Error(error.message);
   }
+
+  return data as HouseEntry | null;
+}
+
+export async function seedGptDailyUpdate(input: unknown) {
+  const payload = normalizeDailyUpdatePayload(input);
+  const supabase = createSupabaseAdminClient();
+  const ownerUserId = await resolveOwnerUserId(supabase);
+  const existing = await findMatchingDailyUpdate(supabase, ownerUserId, payload);
+
+  if (existing) {
+    return {
+      action: "skipped" as const,
+      reason: "Daily House OS record already exists for this date.",
+      record: publicEntry(existing)
+    };
+  }
+
+  const { data, error } = await supabase
+    .from("house_entries")
+    .insert({ ...payload, user_id: ownerUserId })
+    .select("*")
+    .single();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return {
+    action: "created" as const,
+    record: publicEntry(data as HouseEntry)
+  };
+}
+
+export async function upsertGptDailyUpdate(input: unknown) {
+  const payload = normalizeDailyUpdatePayload(input);
+
+  const supabase = createSupabaseAdminClient();
+  const ownerUserId = await resolveOwnerUserId(supabase);
+  const existing = await findMatchingDailyUpdate(supabase, ownerUserId, payload);
 
   if (existing) {
     const { data, error } = await supabase
